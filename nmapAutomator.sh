@@ -338,12 +338,11 @@ for line in $file; do
 			pages="html,php"
 		fi
 		if [[ ! -z `echo "${line}" | grep ssl/http` ]]; then
-			#echo "sslyze --regular $1 | tee recon/sslyze_$1_$port.txt"
-			echo "sslscan $1 | tee recon/sslscan_$1_$port.txt"
-			echo "gobuster -w /usr/share/wordlists/dirb/common.txt -t 30 -k -x $pages -s 200,204,301,302,307,401,403,500 -u https://$1:$port -o recon/gobuster_$1_$port.txt"
+			echo "testssl.sh https://$1:$port | tee recon/testssl_$1_$port.txt"
+			echo "gobuster -w /opt/dirbuster-lists/directory-list-2.3-small.txt -t 30 -k -x $pages -s 200,204,301,302,307,401,403,500 -u https://$1:$port -o recon/gobuster_$1_$port.txt"
 			echo "nikto -host https://$1:$port -ssl | tee recon/nikto_$1_$port.txt"
 		else
-			echo "gobuster -w /usr/share/wordlists/dirb/common.txt -t 30 -x $pages -s 200,204,301,302,307,401,403,500 -u http://$1:$port -o recon/gobuster_$1_$port.txt"
+			echo "gobuster -w /opt/dirbuster-lists/directory-list-2.3-small.txt -t 30 -x $pages -s 200,204,301,302,307,401,403,500 -u http://$1:$port -o recon/gobuster_$1_$port.txt"
 			echo "nikto -host $1:$port | tee recon/nikto_$1_$port.txt"
 		fi
 		echo ""
@@ -379,14 +378,14 @@ if [[ ! -z `echo "${file}" | grep -w "445/tcp"` ]]; then
 		echo "nmap -Pn -p445 --script vuln -oN recon/SMB_vulns_$1.txt $1"
 	fi
 	if [[ $osType == "Linux" ]]; then
-		echo "enum4linux -a $1 | tee recon/enum4linux_$1.txt"
+		echo "nullinux -a $1 | tee recon/nullinux_$1.txt"
 	fi
 	echo ""
 elif [[ ! -z `echo "${file}" | grep -w "139/tcp"` ]] && [[ $osType == "Linux" ]]; then
 	echo -e "${NC}"
 	echo -e "${YELLOW}SMB Recon:"
 	echo -e "${NC}"
-	echo "enum4linux -a $1 | tee recon/enum4linux_$1.txt"
+	echo "nullinux -a $1 | tee recon/nullinux_$1.txt"
 	echo ""
 fi
 
