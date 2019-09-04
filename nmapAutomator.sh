@@ -10,7 +10,7 @@ SECONDS=0
 
 usage(){
 echo -e ""
-echo -e "${RED}Usage: ./nmapAutomator.sh <TARGET-IP> <TYPE>"
+echo -e "${RED}Usage: $0 <TARGET-IP> <TYPE>"
 echo -e "${YELLOW}"
 echo -e "Scan Types:"
 echo -e "\tQuick:	Shows all open ports quickly (~15 seconds)"
@@ -333,16 +333,16 @@ for line in $file; do
 	if [[ ! -z `echo "${line}" | grep -i http` ]]; then
 		port=`echo "${line}" | cut -d "/" -f 1`
 		if [[ ! -z `echo "${line}" | grep -w "IIS"` ]]; then
-			pages="html,asp,php"
+			pages=".html,.asp,.php"
 		else
-			pages="html,php"
+			pages=".html,.php"
 		fi
 		if [[ ! -z `echo "${line}" | grep ssl/http` ]]; then
 			echo "testssl.sh https://$1:$port | tee recon/testssl_$1_$port.txt"
-			echo "gobuster -w /opt/dirbuster-lists/directory-list-2.3-small.txt -t 30 -k -x $pages -s 200,204,301,302,307,401,403,500 -u https://$1:$port -o recon/gobuster_$1_$port.txt"
+ 			echo "gobuster dir -w /opt/dirbuster-lists/directory-list-2.3-small.txt -l -t 30 -e -k -x $pages -u https://$1:$port -o recon/gobuster_$1_$port.txt"
 			echo "nikto -host https://$1:$port -ssl | tee recon/nikto_$1_$port.txt"
 		else
-			echo "gobuster -w /opt/dirbuster-lists/directory-list-2.3-small.txt -t 30 -x $pages -s 200,204,301,302,307,401,403,500 -u http://$1:$port -o recon/gobuster_$1_$port.txt"
+ 			echo "gobuster dir -w /opt/dirbuster-lists/directory-list-2.3-small.txt -l -t 30 -e -k -x $pages -u http://$1:$port -o recon/gobuster_$1_$port.txt"
 			echo "nikto -host $1:$port | tee recon/nikto_$1_$port.txt"
 		fi
 		echo ""
@@ -415,7 +415,7 @@ if [[ ! -z `echo "${file}" | grep -w "1521/tcp"` ]]; then
 	echo -e "${NC}"
 	echo "cd /opt/odat/;#$1;"
 	echo "./odat.py sidguesser -s $1 -p 1521"
-	echo "./odat.py passwordguesser -s $1 -p 1521 -d XE --accounts-file accounts/accounts-multiple.txt"
+	echo "./odat.py passwordguesser -s $1 -p 1521 -d XE --accounts-file /opt/odat/accounts/accounts-multiple.txt"
 	echo "cd -;#$1;"
 	echo ""
 fi
