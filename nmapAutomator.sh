@@ -372,20 +372,20 @@ if [[ ! -z $(echo "${file}" | grep -w "445/tcp") ]]; then
 	echo -e "${NC}"
 	echo -e "${YELLOW}SMB Recon:"
 	echo -e "${NC}"
-	echo "smbmap -H $1 | tee recon/smbmap_$1.txt"
+	echo "nullinux $1 | tee recon/nullinux_$1.txt"
 	echo "smbclient -L \"//$1/\" -U \"guest\"% | tee recon/smbclient_$1.txt"
 	if [[ $osType == "Windows" ]]; then
 		echo "nmap -Pn -p445 --script vuln -oN recon/SMB_vulns_$1.txt $1"
 	fi
-	if [[ $osType == "Linux" ]]; then
-		echo "nullinux -a $1 | tee recon/nullinux_$1.txt"
-	fi
+#	if [[ $osType == "Linux" ]]; then
+#		echo "nullinux $1 | tee recon/nullinux_$1.txt"
+#	fi
 	echo ""
 elif [[ ! -z $(echo "${file}" | grep -w "139/tcp") ]] && [[ $osType == "Linux" ]]; then
 	echo -e "${NC}"
 	echo -e "${YELLOW}SMB Recon:"
 	echo -e "${NC}"
-	echo "nullinux -a $1 | tee recon/nullinux_$1.txt"
+	echo "nullinux $1 | tee recon/nullinux_$1.txt"
 	echo ""
 fi
 
