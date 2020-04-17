@@ -425,10 +425,8 @@ if [[ ! -z $(echo "${file}" | grep -w "1521/tcp") ]]; then
 	echo -e "${NC}"
 	echo -e "${YELLOW}Oracle Recon \"Exc. from Default\":"
 	echo -e "${NC}"
-	echo "cd /opt/odat/;#$1;"
-	echo "./odat.py sidguesser -s $1 -p 1521"
-	echo "./odat.py passwordguesser -s $1 -p 1521 -d XE --accounts-file accounts/accounts-multiple.txt"
-	echo "cd -;#$1;"
+	echo "odat sidguesser -s $1 -p 1521"
+	echo "odat passwordguesser -s $1 -p 1521 -d XE --accounts-file /opt/odat/accounts/accounts_multiple.txt"
 	echo ""
 fi
 
