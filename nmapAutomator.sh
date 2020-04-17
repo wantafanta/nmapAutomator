@@ -339,10 +339,10 @@ for line in $file; do
 		fi
 		if [[ ! -z `echo "${line}" | grep ssl/http` ]]; then
 			echo "testssl.sh https://$1:$port | tee recon/testssl_$1_$port.txt"
- 			echo "gobuster dir -w /opt/dirbuster-lists/directory-list-2.3-small.txt -l -t 30 -e -k -x $pages -u https://$1:$port -o recon/gobuster_$1_$port.txt"
+ 			echo "gobuster -m dir -w /opt/dirbuster-lists/directory-list-2.3-small.txt -l -t 30 -e -k -x $pages -u https://$1:$port -o recon/gobuster_$1_$port.txt"
 			echo "nikto -host https://$1:$port -ssl | tee recon/nikto_$1_$port.txt"
 		else
- 			echo "gobuster dir -w /opt/dirbuster-lists/directory-list-2.3-small.txt -l -t 30 -e -k -x $pages -u http://$1:$port -o recon/gobuster_$1_$port.txt"
+ 			echo "gobuster -m dir -w /opt/dirbuster-lists/directory-list-2.3-small.txt -l -t 30 -e -k -x $pages -u http://$1:$port -o recon/gobuster_$1_$port.txt"
 			echo "nikto -host $1:$port | tee recon/nikto_$1_$port.txt"
 		fi
 		echo ""
