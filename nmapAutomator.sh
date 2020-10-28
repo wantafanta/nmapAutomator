@@ -330,10 +330,10 @@ if [[ ! -z $(echo "${file}" | grep -i http) ]]; then
 fi
 
 for line in $file; do
-	if [[ ! -z `echo "${line}" | grep -i http` ]]; then
-		port=`echo "${line}" | cut -d "/" -f 1`
-		if [[ ! -z `echo "${line}" | grep -w "IIS"` ]]; then
-			pages=".html,.asp,.php"
+	if [[ ! -z $(echo "${line}" | grep -i http) ]]; then
+		port=$(echo "${line}" | cut -d "/" -f 1)
+		if [[ ! -z $(echo "${line}" | grep -w "IIS") ]]; then
+			pages=".html,.asp,.aspx,.php"
 		else
 			pages=".html,.php"
 		fi
@@ -395,7 +395,7 @@ if [ -f nmap/UDP_"$1".nmap ] && [[ ! -z $(cat nmap/UDP_"$1".nmap | grep open | g
 	echo -e "${YELLOW}SNMP Recon:"
 	echo -e "${NC}"
 	echo "snmp-check $1 -c public | tee recon/snmpcheck_$1.txt"
-	echo "snmpwalk -Os -c public -v $1 | tee recon/snmpwalk_$1.txt"
+	echo "snmpwalk -Os -c public -v1 $1 | tee recon/snmpwalk_$1.txt"
 	echo ""
 fi
 
